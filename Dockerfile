@@ -1,4 +1,4 @@
-FROM continuumio/miniconda2:4.5.11 AS gdal-build
+FROM continuumio/miniconda2:4.7.12 AS gdal-build
 
 RUN apt-get update && \
     apt-get install -y wget bzip2 unzip gcc bison flex make g++ \
@@ -38,7 +38,7 @@ RUN make install | tee /tmp/gdal_build/install.log && \
     mkdir -p $PGC_GDAL_INSTALL_ROOT/gdal-python/lib/python && \
     python setup.py install --home $PGC_GDAL_INSTALL_ROOT/gdal-python | tee /tmp/gdal_build/gdal-python-install.log
 
-FROM continuumio/miniconda2:4.5.11
+FROM continuumio/miniconda2:4.7.12
 
 MAINTAINER azenk@umn.edu
 
@@ -47,7 +47,8 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-RUN conda install --yes pip && \
+RUN conda update -n base conda && \
+    conda install --yes pip && \
     conda clean --all --yes
 
 ENV  PGC_GDAL_INSTALL_ROOT /opt/pgc
