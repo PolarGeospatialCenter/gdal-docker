@@ -1,7 +1,7 @@
 FROM continuumio/miniconda2:4.7.12 AS gdal-build
 
 RUN apt-get update && \
-    apt-get install -y wget bzip2 unzip gcc bison flex make g++ \
+    apt-get install -y wget bzip2 unzip gcc bison flex make g++ pkg-config \
                       libreadline-dev zlib1g-dev libcfitsio-dev libgeos-dev libproj-dev libopenjp2-7-dev libtiff-dev libpq-dev && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
