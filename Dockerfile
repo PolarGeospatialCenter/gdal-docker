@@ -1,6 +1,6 @@
 FROM continuumio/miniconda3:4.9.2 as gdal-build
 
-RUN apt-get update && \
+RUN apt-get --allow-releaseinfo-change update && \
     apt-get install -y wget bzip2 unzip gcc bison flex make g++ pkg-config \
                       libreadline-dev zlib1g-dev libcfitsio-dev libgeos-dev libopenjp2-7-dev libtiff-dev libpq-dev \
                       sqlite3 libsqlite3-dev libtiff5-dev libzstd-dev curl && \
@@ -59,7 +59,7 @@ FROM continuumio/miniconda3:4.9.2
 
 MAINTAINER imxxx021@umn.edu
 
-RUN apt-get update && \
+RUN apt-get --allow-releaseinfo-change update && \
     apt-get install -y libreadline-dev zlib1g-dev libcfitsio-dev libgeos-dev libproj-dev libopenjp2-7-dev libtiff-dev libpq-dev \
         libsqlite3-dev libtiff5-dev libzstd-dev && \
     apt-get clean && \
@@ -78,5 +78,6 @@ COPY --from=gdal-build /tmp/gdal_build /tmp/gdal_build
 # The setup script for the python bindings builds an egg which needs to be installed via easy_install.
 # However, easy_install is deprecated and setuptools removed it in v52.0.0 in favor of pip, and which apparently does not support eggs.
 RUN easy_install GDAL==$gdal_version
+RUN conda install numpy
 
 CMD /bin/bash
