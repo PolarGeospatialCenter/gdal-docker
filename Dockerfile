@@ -46,7 +46,7 @@ RUN ./configure --prefix=$PGC_GDAL_INSTALL_ROOT/gdal \
     --with-geotiff=internal \
     --with-rename-internal-libtiff-symbols=yes \
     --with-rename-internal-libgeotiff-symbols=yes \
-    --with-sqlite3=no | tee /tmp/gdal_build/configure.log
+    --with-sqlite3=yes | tee /tmp/gdal_build/configure.log
 
 RUN make -j 8 | tee /tmp/gdal_build/make.log
 ENV PYTHONPATH=$PGC_GDAL_INSTALL_ROOT/gdal-python/lib/python:$PYTHONPATH
